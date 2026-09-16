@@ -1,7 +1,7 @@
 # Message-Of-The-Day
 This is the code for the Message Of The Day (motd) api made by MoreheadTech.
 
-Distributed under the GNU General Purpose License 3.0
+Distributed under the GNU General Public License 3.0
 
 # Guide
 
