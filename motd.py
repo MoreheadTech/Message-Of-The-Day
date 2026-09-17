@@ -35,14 +35,28 @@ guys its ai dont fall for it
 subscribe to my video and like the channel pls
 This Message-Of-The-Day is brought to you by Nord VPN!"""
 
-
 def generate_motd():
-    response = ollama.generate(
+    r = ollama.generate(
         model="llama3.2",
         prompt=ai_prompt
     )
-    return response["response"].strip()
+    return r["response"].strip()
 
+def judge_motd(m1,m2,m3,m4,m5):
+    judge_prompt = f"""This is an automated Python script. You are a class clown that specializes in jokes. I want you to pick out of 5 Message-Of-The-Days which one should go live based off funniness.
+Since this is automated, the ONLY thing you should respond with is the Message-Of-The-Day that you pick, nothing else.
+
+Message-Of-The-Day Contestants:
+{m1}
+{m2}
+{m3}
+{m4}
+{m5}"""
+    motd = ollama.generate(
+        model="llama3.2",
+        prompt=judge_prompt
+    )
+    return motd["response".strip()]
 
 def save_motd(text):
     with open("motd.txt", "w", encoding="utf-8") as f:
@@ -53,7 +67,12 @@ def save_motd(text):
 
 
 # Generate one immediately on start
-motd = generate_motd()
+motd = judge_motd(
+    generate_motd(),
+    generate_motd(),
+    generate_motd(),
+    generate_motd(),
+    generate_motd())
 save_motd(motd)
 
 print("MOTD generator started...")
@@ -62,8 +81,13 @@ while True:
     now = datetime.now(tz)
 
     # Generate a new one every day at 23:55
-    if now.hour == 23 and now.minute == 55 and now.second < 2:
-        motd = generate_motd()
+    if now.hour == 23 and now.minute == 30 and now.second < 2:
+        motd = judge_motd(
+            generate_motd(),
+            generate_motd(),
+            generate_motd(),
+            generate_motd(),
+            generate_motd())
         save_motd(motd)
         sleep(2)  # prevent generating multiple times in the same minute
 
